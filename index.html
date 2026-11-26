@@ -50,7 +50,7 @@ const panels=['settingsPanel','mainPanel','selectPanel','shopPanel','gachaPanel'
 function showPanel(id){panels.forEach(p=>$(p).classList.toggle('hidden',p!==id));menu.classList.add('hidden');end.classList.add('hidden');$('stageClear').classList.add('hidden');}
 function updateMenu(){ $('currencyLabel').textContent='星晶: '+crystal; $('soundToggle').textContent=soundOn?'ON':'OFF';$('padSettingsToggle').textContent=padEnabled?'ON':'OFF';$('dragToggle').textContent=dragOn?'ON':'OFF';}
 function saveMeta(){localStorage.setItem('astral_crystal',crystal);localStorage.setItem('astral_sound',soundOn?'on':'off');localStorage.setItem('astral_pad',padEnabled?'on':'off');localStorage.setItem('astral_drag',dragOn?'on':'off');applyPad();updateMenu()}
-function buildStageButtons(){let box=$('stageButtons');box.innerHTML='';stageNames.forEach((nm,i)=>{let b=document.createElement('button');b.textContent=String(i+1).padStart(2,'0')+' · '+nm;b.onclick=()=>{selectedStage=i+1;Array.from(box.children).forEach((el,j)=>el.style.borderColor=j===i?'#c7b4ff':'#455174'};box.appendChild(b)});Array.from(box.children).forEach((el,j)=>el.style.borderColor=j===selectedStage-1?'#c7b4ff':'#455174')}
+function buildStageButtons(){let box=$('stageButtons');box.innerHTML='';stageNames.forEach((nm,i)=>{let b=document.createElement('button');b.textContent=String(i+1).padStart(2,'0')+' · '+nm;b.onclick=()=>{selectedStage=i+1;Array.from(box.children).forEach((el,j)=>el.style.borderColor=j===i?'#c7b4ff':'#455174');box.appendChild(b)});Array.from(box.children).forEach((el,j)=>el.style.borderColor=j===selectedStage-1?'#c7b4ff':'#455174')}
 function setSound(v){soundOn=v;saveMeta()}
 $('start').onclick=()=>{audioUnlock();showPanel('settingsPanel');updateMenu()};
 $('settingsNext').onclick=()=>showPanel('mainPanel');
@@ -62,7 +62,7 @@ $('goSelect').onclick=()=>{buildStageButtons();showPanel('selectPanel')};
 $('goShop').onclick=()=>showPanel('shopPanel');$('goGacha').onclick=()=>showPanel('gachaPanel');
 $('selectBack').onclick=()=>showPanel('mainPanel');$('shopBack').onclick=()=>showPanel('mainPanel');$('gachaBack').onclick=()=>showPanel('mainPanel');
 $('difficultyBtn').onclick=()=>{difficulty=(difficulty+1)%3;$('difficultyBtn').textContent=['EASY','NORMAL','HARD'][difficulty]};
-$('launchGame').onclick=()=>{stage=selectedStage;reset();lives+=lifeBoost;bombs+=bombBoost;lifeBoost=bombBoost=0;bossHp=1;patternTimer=0;if(powerBoost){score+=powerBoost*100;powerBoost=0}if(difficulty===0){lives++;}if(difficulty===2){lives=Math.max(1,lives-1)}};
+$('launchGame').onclick=()=>{stage=selectedStage;panels.forEach(p=>$(p).classList.add('hidden'));reset();lives+=lifeBoost;bombs+=bombBoost;lifeBoost=bombBoost=0;bossHp=1;patternTimer=0;if(powerBoost){score+=powerBoost*100;powerBoost=0}if(difficulty===0){lives++;}if(difficulty===2){lives=Math.max(1,lives-1)}};
 $('buyLife').onclick=()=>{if(crystal>=50){crystal-=50;lifeBoost++;saveMeta()}};
 $('buyBomb').onclick=()=>{if(crystal>=40){crystal-=40;bombBoost++;saveMeta()}};
 $('buyPower').onclick=()=>{if(crystal>=60){crystal-=60;powerBoost++;saveMeta()}};
