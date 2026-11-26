@@ -6,7 +6,7 @@ let scale=1, mode='title', paused=false, selectedStage=1, stage=1, difficulty=1;
 let score=0,lives=3,bombs=2,phase=0,bossHp=1,attackBoost=0,lifeBoost=0,bombBoost=0,powerBoost=0,crystal=Number(localStorage.getItem('astral_crystal')||0);
 let soundOn=localStorage.getItem('astral_sound')!=='off',padEnabled=localStorage.getItem('astral_pad')!=='off',dragOn=localStorage.getItem('astral_drag')!=='off';
 let keys={},touchMove={x:0,y:0},moveDirections={up:false,down:false,left:false,right:false},slow=false,pointerActive=false;
-let activePointers=new Map(),tapHistory={single:0,double:0},weaponMode=0,shieldTime=0,shieldCooldown=0,twoFingerGesture=false;
+let activePointers=new Map(),tapHistory={single:0,double:0},weaponMode=0,shieldTime=0,shieldCooldown=0,twoFingerGesture=false,primaryPointer=null;
 let t=0,shootTimer=0,patternTimer=0,shake=0,inv=0,bossFlash=0,bombFlash=0;
 let player={x:240,y:690},boss={x:240,y:145},bullets=[],enemyBullets=[],particles=[],stars=[];
 const themes=[{accent:'#b9a4ff',a:'#46346f',b:'#131c3d'},{accent:'#85dcff',a:'#28658b',b:'#102b49'},{accent:'#ffc1ec',a:'#9b386f',b:'#351735'},{accent:'#ffd18a',a:'#8d5033',b:'#391e27'},{accent:'#a9ffdb',a:'#327a69',b:'#112e37'},{accent:'#fff1b0',a:'#79632c',b:'#302a24'}];
@@ -59,9 +59,9 @@ hold('slow',v=>slow=v);hold('bomb',v=>{if(v)useBomb()});function syncDirections(
 canvas.style.touchAction='none';
 function canvasPoint(e){let r=canvas.getBoundingClientRect();return{x:Math.max(18,Math.min(462,(e.clientX-r.left)*W/r.width)),y:Math.max(30,Math.min(790,(e.clientY-r.top)*H/r.height))}}
 canvas.addEventListener('pointerdown',e=>{if(mode!=='play'||paused)return;audioUnlock();activePointers.set(e.pointerId,canvasPoint(e));canvas.setPointerCapture?.(e.pointerId);if(activePointers.size===1){pointerActive=true;pointer(e)}else{pointerActive=false;touchMove={x:0,y:0}});
-canvas.addEventListener('pointermove',e=>{if(!activePointers.has(e.pointerId)||mode!=='play'||paused)return;activePointers.set(e.pointerId,canvasPoint(e));if(activePointers.size===1&&pointerActive)pointer(e)});
-canvas.addEventListener('pointerup',e=>{activePointers.delete(e.pointerId);pointerActive=false;if(activePointers.size===0){let now=performance.now();if(twoFingerGesture){if(now-tapHistory.double<380){switchWeapon();tapHistory.double=0}else tapHistory.double=now;twoFingerGesture=false}else{if(now-tapHistory.single<320){activateShield();tapHistory.single=0}else tapHistory.single=now}}});
-canvas.addEventListener('pointercancel',e=>{activePointers.delete(e.pointerId);pointerActive=false});
+canvas.addEventListener('pointermove',e=>{if(!activePointers.has(e.pointerId)||mode!=='play'||paused)return;activePointers.set(e.pointerId,canvasPoint(e));if(e.pointerId===primaryPointer&&pointerActive)pointer(e)});
+canvas.addEventListener('pointerup',e=>{activePointers.delete(e.pointerId);if(e.pointerId===primaryPointer){primaryPointer=activePointers.size?activePointers.keys().next().value:null;pointerActive=primaryPointer!==null}if(activePointers.size===0){pointerActive=false;primaryPointer=null;let now=performance.now();if(twoFingerGesture){if(now-tapHistory.double<380){switchWeapon();tapHistory.double=0}else tapHistory.double=now;twoFingerGesture=false}else{if(now-tapHistory.single<320){activateShield();tapHistory.single=0}else tapHistory.single=now}}});
+canvas.addEventListener('pointercancel',e=>{activePointers.delete(e.pointerId);if(e.pointerId===primaryPointer)primaryPointer=activePointers.size?activePointers.keys().next().value:null;pointerActive=primaryPointer!==null});
 function pointer(e){let p=canvasPoint(e);player.x=p.x;player.y=p.y;touchMove={x:0,y:0}}
 applyPad();updateMenu();showPanel('settingsPanel');$('start').addEventListener('pointerdown',audioUnlock,{once:true});requestAnimationFrame(loop);
 })();
