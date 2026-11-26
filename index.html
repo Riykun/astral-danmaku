@@ -52,7 +52,7 @@ function updateMenu(){ $('currencyLabel').textContent='星晶: '+crystal; $('sou
 function saveMeta(){localStorage.setItem('astral_crystal',crystal);localStorage.setItem('astral_sound',soundOn?'on':'off');localStorage.setItem('astral_pad',padEnabled?'on':'off');localStorage.setItem('astral_drag',dragOn?'on':'off');applyPad();updateMenu()}
 function buildStageButtons(){let box=$('stageButtons');box.innerHTML='';stageNames.forEach((nm,i)=>{let b=document.createElement('button');b.textContent=String(i+1).padStart(2,'0')+' · '+nm;b.onclick=()=>{selectedStage=i+1;Array.from(box.children).forEach((el,j)=>el.style.borderColor=j===i?'#c7b4ff':'#455174');box.appendChild(b)});Array.from(box.children).forEach((el,j)=>el.style.borderColor=j===selectedStage-1?'#c7b4ff':'#455174')}
 function setSound(v){soundOn=v;saveMeta()}
-$('start').onclick=()=>{audioUnlock();showPanel('settingsPanel');updateMenu()};
+$('start').onclick=()=>{audioUnlock();updateMenu();showPanel('mainPanel')};
 $('settingsNext').onclick=()=>showPanel('mainPanel');
 $('soundToggle').onclick=()=>setSound(!soundOn);
 $('padSettingsToggle').onclick=()=>{padEnabled=!padEnabled;saveMeta()};
