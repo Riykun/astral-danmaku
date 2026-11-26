@@ -4,7 +4,7 @@ export class PixiRenderer {
  readonly app=new Application(); readonly world=new Container(); private ready=false; private glow=new Graphics();
  async mount(host:HTMLElement):Promise<void>{
   if(this.ready)return;
-  await this.app.init({backgroundAlpha:0,antialias:true,autoDensity:true,resolution:Math.min(window.devicePixelRatio||1,2),resizeTo:host,clearColor:0});
+  await this.app.init({backgroundAlpha:0,antialias:true,autoDensity:true,resolution:Math.min(window.devicePixelRatio||1,2),resizeTo:host});
   const canvas=this.app.canvas as HTMLCanvasElement;
   canvas.className='astral-pixi-overlay';
   canvas.style.cssText='position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1';
