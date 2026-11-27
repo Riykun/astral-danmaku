@@ -1,1 +1,22 @@
-{"name":"astral-danmaku","private":true,"version":"0.2.0","type":"module","scripts":{"dev":"vite","typecheck":"tsc --noEmit","build":"npm run typecheck && vite build","preview":"vite preview"},"dependencies":{"pixi.js":"^8.6.6"},"devDependencies":{"typescript":"^5.7.3","vite":"^6.1.0"}}
+{
+  "name": "astral-danmaku",
+  "private": true,
+  "version": "0.2.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "typecheck": "tsc --noEmit",
+    "build": "npm run typecheck && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "pixi.js": "^8.6.6"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3",
+    "vite": "^6.1.0"
+  },
+  "allowScripts": {
+    "esbuild@0.25.12": true
+  }
+}
