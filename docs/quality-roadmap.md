@@ -1,6 +1,6 @@
 # ASTRAL Quality Roadmap
 
-Last reviewed: 2026-11-27
+Last reviewed: 2026-11-28
 
 ## Verified source/build items
 - [x] Gesture instructions are reachable from title and pause screens (source audit).
@@ -9,6 +9,7 @@ Last reviewed: 2026-11-27
 - [x] Barrier duration and cooldown decrement during gameplay (source audit; previously fixed).
 - [x] Pointer movement respects drag movement setting (source audit; previously fixed).
 - [x] Pointer cancellation removes cancelled IDs from both pointer collections and clears tap suppression/movement when no pointer remains (source audit; 2026-11-27).
+- [x] Window blur and document hidden now call shared `resetInput()` to clear stale pointer IDs, tap history state flags, keyboard keys, directional input and slow mode (source audit; 2026-11-28).
 - [x] Production Vercel builds have previously passed TypeScript + Vite build (historical log; this run's latest build pending).
 
 ## Not verified without browser/device gameplay
@@ -19,7 +20,7 @@ Last reviewed: 2026-11-27
 - [ ] Economy: crystal persistence, shop purchase accounting, gacha results, stage/retry reward edge cases.
 - [ ] FPS/performance and audio on actual devices.
 
-## Next priorities
+## Run notes (2026-11-28)\n- Focus-loss input-state leak fixed: blur/visibility loss clears all tracked pointers and gesture state. This addresses a reproducible source-level risk where stale pointer IDs could make the next touch appear multi-touch.\n- No automated test suite exists in package scripts. Build pending on deployment.\n\n## Next priorities
 1. Run browser-based interaction tests (including multi-touch) if a browser runner becomes available; otherwise require hands-on mobile check.
 2. Add deterministic unit tests for pure game helpers and progression/economy logic if code can be safely modularized.
 3. Audit gameplay loop: timing cadence, collisions, progression/retry/economy invariants; avoid broad refactors until automated tests exist.
