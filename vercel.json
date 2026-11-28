@@ -1,6 +1,6 @@
 {
   "framework": "vite",
-  "installCommand": "env -u npm_config_cache_dir -u NPM_CONFIG_CACHE_DIR -u pnpm_config_cache_dir -u PNPM_CONFIG_CACHE_DIR npm install",
-  "buildCommand": "env -u npm_config_cache_dir -u NPM_CONFIG_CACHE_DIR -u pnpm_config_cache_dir -u PNPM_CONFIG_CACHE_DIR npm run build",
+  "installCommand": "env -u npm_config_cache-dir -u NPM_CONFIG_CACHE-DIR -u npm_config_cache_dir -u NPM_CONFIG_CACHE_DIR -u pnpm_config_cache-dir -u PNPM_CONFIG_CACHE-DIR -u pnpm_config_cache_dir -u PNPM_CONFIG_CACHE_DIR npm install",
+  "buildCommand": "env -u npm_config_cache-dir -u NPM_CONFIG_CACHE-DIR -u npm_config_cache_dir -u NPM_CONFIG_CACHE_DIR -u pnpm_config_cache-dir -u PNPM_CONFIG_CACHE-DIR -u pnpm_config_cache_dir -u PNPM_CONFIG_CACHE_DIR npm run build",
   "outputDirectory": "dist"
 }
