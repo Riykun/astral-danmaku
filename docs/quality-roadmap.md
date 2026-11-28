@@ -9,6 +9,8 @@ Last reviewed: 2026-11-28
 - Pointer cancellation now fully resets the gameplay input state rather than leaving partial multi-touch bookkeeping.
 - Boss HP HUD is refreshed only when shot damage changes the HP value, avoiding unnecessary per-frame DOM updates while keeping the health bar accurate.
 - P-key/Escape pause toggle ignores key-repeat to avoid accidental pause toggling while held.
+- Removed touchstart + synthesized-mousedown dual handling for hold controls: Pointer Events now fire one guarded activation per press, preventing duplicate bomb consumption on touch browsers. Existing keyboard controls are handled globally.
+- Build validation for the current commit is pending in Vercel. Local clone/build was attempted but could not run because this environment could not resolve github.com.
 
 ## Verified source/build items
 - [x] Gesture instructions are reachable from title and pause screens (source audit).
