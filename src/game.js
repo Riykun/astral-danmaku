@@ -49,7 +49,7 @@ $('retry').onclick=()=>showPanel('mainPanel');$('resumeGame').onclick=()=>{pause
 document.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{audioUnlock();sfx('click')}));
 $('padToggle').onclick=()=>{padEnabled=!padEnabled;save()};
 window.addEventListener('keydown',e=>{if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' ','Shift'].includes(e.key))e.preventDefault();keys[e.key]=true;if(e.key===' '&&!e.repeat)useBomb();if(e.key==='Escape'||e.key.toLowerCase()==='p'){if(mode==='play')pauseGame()}});
-window.addEventListener('keyup',e=>keys[e.key]=false);window.addEventListener('blur',()=>{keys={};slow=false;pointerActive=false;moveDirections={up:false,down:false,left:false,right:false};syncDirections()});
+window.addEventListener('keyup',e=>keys[e.key]=false);window.addEventListener('blur',resetInput);document.addEventListener('visibilitychange',()=>{if(document.hidden)resetInput()});
 function hold(id,fn){let el=$(id);el.addEventListener('touchstart',e=>{e.preventDefault();fn(true)},{passive:false});['touchend','touchcancel','mouseup','mouseleave'].forEach(ev=>el.addEventListener(ev,()=>fn(false)));el.addEventListener('mousedown',()=>fn(true))}
 hold('slow',v=>slow=v);hold('bomb',v=>{if(v)useBomb()});function syncDirections(){touchMove.x=(moveDirections.right?1:0)-(moveDirections.left?1:0);touchMove.y=(moveDirections.down?1:0)-(moveDirections.up?1:0)};['up','down','left','right'].forEach(d=>hold('move'+d[0].toUpperCase()+d.slice(1),v=>{moveDirections[d]=v;syncDirections()}));
 canvas.style.touchAction='none';
