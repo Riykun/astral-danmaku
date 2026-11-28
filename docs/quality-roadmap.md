@@ -5,9 +5,9 @@ Last reviewed: 2026-11-28
 ## Run notes (2026-11-28, runtime error follow-up)
 - Replaced direct localStorage reads/writes with guarded storage access to avoid storage permission/security exceptions breaking initialization or save operations.
 - Reset double-tap timing history on shared input reset so a focus-loss or panel transition cannot leave stale tap timestamps.
-- Reworked hold controls (slow/bomb/directional pad) to Pointer Events with a pressed-state guard, preventing touch plus synthetic mouse event duplicate activation; keyboard Space/Enter is also supported for these controls.
+- Reworked hold controls (slow/bomb/directional pad) to Pointer Events with a pressed-state guard, preventing touch plus synthetic mouse event duplicate activation. Keyboard equivalents remain handled by the global WASD/arrows, Shift and Space bindings (not the button-specific handlers).
 - Pointer cancellation now fully resets the gameplay input state rather than leaving partial multi-touch bookkeeping.
-- Boss HP HUD is refreshed after shot damage each game update, so the displayed bar reflects hits.
+- Boss HP HUD is refreshed only when shot damage changes the HP value, avoiding unnecessary per-frame DOM updates while keeping the health bar accurate.
 - P-key/Escape pause toggle ignores key-repeat to avoid accidental pause toggling while held.
 
 ## Verified source/build items
